@@ -11,7 +11,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Instructors',
+      title: 'Forgot Password?',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -35,15 +35,15 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class InstructorsPage extends StatefulWidget {
+class ForgotPage extends StatefulWidget {
   @override
-  State<InstructorsPage> createState()
+  State<ForgotPage> createState()
   {
-    return _RegisterPageState();
+    return _ForgotPageState();
   }
 }
 
-class _RegisterPageState extends State<InstructorsPage> {
+class _ForgotPageState extends State<ForgotPage> {
   String email = "";
   String password = "";
 
@@ -53,7 +53,7 @@ class _RegisterPageState extends State<InstructorsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Dashboard"),
+          title: Text("Forgot password"),
         ),
         body: Form(
             child: Padding(

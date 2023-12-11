@@ -1,4 +1,8 @@
+import 'dart:ffi';
+import 'package:sqflite/sqflite.dart';
+import 'package:path/path.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 void main() {
   runApp(const MyApp());
@@ -46,6 +50,10 @@ class RegisterPage extends StatefulWidget {
 class _RegisterPageState extends State<RegisterPage> {
   String email = "";
   String password = "";
+  String firstnamevalue = "";
+  String? test = null;
+
+
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
@@ -56,6 +64,7 @@ class _RegisterPageState extends State<RegisterPage> {
           title: Text("Register"),
         ),
         body: Form(
+          key: formKey,
             child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
@@ -66,7 +75,12 @@ class _RegisterPageState extends State<RegisterPage> {
                       {
                         if (value == null || value.isEmpty)
                           {
-                            return "Please enter some text";
+                            return "Please enter your first name";
+                          }
+                        else
+                          {
+                            firstnamevalue = value;
+                            print (value);
                           }
                       },
                       decoration: InputDecoration(
@@ -77,6 +91,13 @@ class _RegisterPageState extends State<RegisterPage> {
 
                     ),
                     TextFormField(
+                        validator: (value)
+                        {
+                          if (value == null || value.isEmpty)
+                          {
+                            return "Please enter your last name";
+                          }
+                        },
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Last Name',
@@ -84,6 +105,13 @@ class _RegisterPageState extends State<RegisterPage> {
                       keyboardType: TextInputType.text
                     ),
                     TextFormField(
+                      validator: (value)
+                      {
+                        if (value == null || value.isEmpty)
+                        {
+                          return "Please enter your age";
+                        }
+                      },
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Age',
@@ -94,13 +122,28 @@ class _RegisterPageState extends State<RegisterPage> {
                       ),
                     ),
                     TextFormField(
+                        validator: (value)
+                        {
+                          if (value == null || value.isEmpty)
+                          {
+                            return "Please enter your instrument";
+                          }
+                        },
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Instrument',
                       ),
                       keyboardType: TextInputType.text
                     ),
+
                     TextFormField(
+                        validator: (value)
+                        {
+                          if (value == null || value.isEmpty)
+                          {
+                            return "Please enter your skill level";
+                          }
+                        },
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Skill Level',
@@ -114,7 +157,7 @@ class _RegisterPageState extends State<RegisterPage> {
                           {
                             return "Please enter some text";
                           }
-                          else if (value.contains("@"))
+                          else if (!value.contains("@"))
                             {
                               return "Please include the @ symbol!";
                             }
@@ -126,6 +169,17 @@ class _RegisterPageState extends State<RegisterPage> {
                       keyboardType: TextInputType.emailAddress
                     ),
                     TextFormField(
+                        validator: (value)
+                        {
+                          if (value == null || value.isEmpty)
+                          {
+                            return "Please enter a password";
+                          }
+                          else if (value.length <= 8)
+                            {
+                              return "Length of password must be 8 or more";
+                            }
+                        },
                       decoration: InputDecoration(
                         border: OutlineInputBorder(),
                         labelText: 'Password',
@@ -139,9 +193,10 @@ class _RegisterPageState extends State<RegisterPage> {
                           // If the form is valid, display a snackbar. In the real world,
                           // you'd often call a server or save the information in a database.
                           ScaffoldMessenger.of(context).showSnackBar(
-                            const SnackBar(content: Text('Processing Data')),
+                            const SnackBar(content: Text('Hang on while we register you...')),
                           );
                         }
+
                       },
                       child: const Text('Submit'),
                     ),
@@ -151,4 +206,5 @@ class _RegisterPageState extends State<RegisterPage> {
         )
     );
   }
+
 }
