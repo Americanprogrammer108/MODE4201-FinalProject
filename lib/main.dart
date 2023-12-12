@@ -1,10 +1,13 @@
-import 'package:final_project/instructors.dart';
-import 'package:final_project/register.dart';
-import 'package:final_project/settings.dart';
+import 'package:final_project/screens/register.dart';
+import 'package:final_project/screens/login.dart';
+import 'package:final_project/screens/settings.dart';
+import 'package:final_project/screens/instructors.dart';
+import 'package:final_project/screens/dashboard.dart';
+import 'package:final_project/screens/finance.dart';
+import 'package:final_project/screens/ForgotPassword.dart';
+
 import 'package:flutter/material.dart';
 
-import 'dashboard.dart';
-import 'login.dart';
 
 void main() {
   runApp(const MyApp());
@@ -37,7 +40,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: InstructorsPage(),
+      home: DashboardPage(),//MyHomePage(title: "welcome"),
     );
   }
 }
@@ -96,46 +99,44 @@ class _MyHomePageState extends State<MyHomePage> {
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
         child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          //
-          // TRY THIS: Invoke "debug painting" (choose the "Toggle Debug Paint"
-          // action in the IDE, or press "p" in the console), to see the
-          // wireframe for each widget.
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'Welcome to Your Music Depot!',
-            ),
-            ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.blue, // Set the background color to red
+            children: <Widget> [
+
+              const Text(
+                "Welcome to Your Music Depot!",
               ),
-              onPressed: () => showDialog<String>(
-                context: context,
-                builder: (BuildContext context) => AlertDialog(
-                  title: const Text('Sign in'),
-                  content: const Text(''),
-                  actions: <Widget>[
-                    TextButton(
-                      onPressed: () => Navigator.pop(context, 'OK'),
-                      child: const Text('OK'),
-                    ),
-                  ],
+
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.all(20),
                 ),
+                child: Text("Login", style: TextStyle(fontSize: 20)),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => LoginPage()),
+                  );
+                },
               ),
-              child: const Text('Sign in'),
-            ),
-          ],
-        ),
+              const Text(
+                "OR",
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  padding: EdgeInsets.all(20),
+                ),
+                child: Text("Register", style: TextStyle(fontSize: 20)),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => RegisterPage()),
+                  );
+                },
+              )
+            ]
+        )
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
+
+
 }

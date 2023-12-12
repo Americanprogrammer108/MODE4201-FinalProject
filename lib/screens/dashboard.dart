@@ -1,69 +1,220 @@
 import 'package:flutter/material.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+/// Flutter code sample for [NavigationBar].
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+void main() => runApp(const NavigationBarApp());
 
-  // This widget is the root of your application.
+class NavigationBarApp extends StatelessWidget {
+  const NavigationBarApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Register',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a blue toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
+      theme: ThemeData(useMaterial3: true),
     );
   }
 }
 
 class DashboardPage extends StatefulWidget {
+  const DashboardPage({super.key});
+
   @override
-  State<DashboardPage> createState()
-  {
-    return _RegisterPageState();
-  }
+  State<DashboardPage> createState() => _DashboardState();
 }
 
-class _RegisterPageState extends State<DashboardPage> {
+class _DashboardState extends State<DashboardPage> {
+  int currentPageIndex = 0;
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   String email = "";
   String password = "";
-
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  String firstnamevalue = "";
+  String? test = null;
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
     return Scaffold(
-        appBar: AppBar(
-          title: Text("Dashboard"),
+      bottomNavigationBar: NavigationBar(
+        onDestinationSelected: (int index) {
+          setState(() {
+            currentPageIndex = index;
+          });
+        },
+        indicatorColor: Colors.amber,
+        selectedIndex: currentPageIndex,
+        destinations: const <Widget>[
+          NavigationDestination(
+            selectedIcon: Icon(Icons.home),
+            icon: Icon(Icons.home_outlined),
+            label: 'Students',
+          ),
+          NavigationDestination(
+            icon: Badge(child: Icon(Icons.person)),
+            label: 'Instructors',
+          ),
+          NavigationDestination(
+            icon: Badge(
+              child: Icon(Icons.dashboard),
+            ),
+            label: 'Dashboard',
+          ),
+          NavigationDestination(
+            icon: Badge(
+              child: Icon(Icons.money),
+            ),
+            label: 'Finance',
+          ),
+          NavigationDestination(
+            icon: Badge(
+              child: Icon(Icons.settings),
+            ),
+            label: 'Settings',
+          ),
+        ],
+      ),
+      body: <Widget>[
+        /// Home page
+        Card(
+          shadowColor: Colors.transparent,
+          margin: const EdgeInsets.all(8.0),
+          child: SizedBox.expand(
+            child: Center(
+              child: Text(
+                'Welcome ',
+                style: theme.textTheme.titleLarge,
+              ),
+            ),
+          ),
         ),
-        body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Text("234"),
-            ]
-    ),
-    )
-    );
 
+        /// Instructors
+        const Padding(
+          padding: EdgeInsets.all(8.0),
+          child: Column(
+            children: <Widget>[
+              const Text(
+                "All instructors",
+              ),
+              TextField(
+
+              ),
+              Card(
+                child: ListTile(
+                  leading: Icon(Icons.notifications_sharp),
+                  title: Text('Judith Chai'),
+                  subtitle: Text('Piano Instructor'),
+                ),
+              ),
+              Card(
+                child: ListTile(
+                  leading: Icon(Icons.notifications_sharp),
+                  title: Text('Jane Williams'),
+                  subtitle: Text('Violin and Trumpet Instructor'),
+                ),
+              ),
+            ],
+          ),
+        ),
+
+        /// Messages page
+        const Padding(
+          padding: EdgeInsets.all(32.0),
+          child: Column(
+
+            children: [
+              const Text(
+                "Welcome back, Ethan Chen",
+                style: TextStyle(height: 5, fontSize: 20),
+              ),
+              const Text(
+                "Instrument: Piano",
+                style: TextStyle(height: 2, fontSize: 15),
+              ),
+              const Text(
+                "Skill Level: Intermediate",
+                style: TextStyle(height: 2, fontSize: 15),
+              ),
+              const Text(
+                "Age: 20",
+                style: TextStyle(height: 2, fontSize: 15),
+              ),
+              const Text(
+                "Instructor: Judith Chai",
+                style: TextStyle(height: 2, fontSize: 15),
+              ),
+
+              const Text(
+                "My classes",
+                style: TextStyle(height:4, fontSize: 15),
+              ),
+
+
+            ],
+          ),
+        ),
+
+        Form(key: formKey,
+            child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    TextFormField(
+                        validator: (value)
+                        {
+                          if (value == null || value.isEmpty)
+                          {
+                            return "Please enter a last name";
+                          }
+                          else
+                          {
+                            firstnamevalue = value;
+                            print (value);
+                          }
+                        },
+                        decoration: InputDecoration(
+                          border: OutlineInputBorder(),
+                          labelText: 'Search by last name',
+                        ),
+                        keyboardType: TextInputType.text
+
+                    ),
+                    ElevatedButton(
+                      onPressed: () {
+                        // Validate returns true if the form is valid, or false otherwise.
+                        if (formKey.currentState!.validate()) {
+                          // If the form is valid, display a snackbar. In the real world,
+                          // you'd often call a server or save the information in a database.
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(content: Text('Hang on while we register you...')),
+                          );
+                        }
+
+                      },
+                      child: const Text('Submit'),
+                    ),
+
+                  ],
+                )
+            )
+        ),
+
+
+        Card(
+          shadowColor: Colors.transparent,
+          margin: const EdgeInsets.all(8.0),
+          child: SizedBox.expand(
+            child: Center(
+              child: Text(
+              'Settings',
+              style: theme.textTheme.titleLarge,
+            ),
+
+            ),
+          ),
+        ),
+
+      ][currentPageIndex],
+    );
   }
 }

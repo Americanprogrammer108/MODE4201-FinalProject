@@ -53,15 +53,24 @@ class _RegisterPageState extends State<SettingsPage> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text("Dashboard"),
+          title: Text("Settings"),
         ),
-        body: Form(
+        body: Center(
             child: Padding(
                 padding: const EdgeInsets.all(16),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-
+                        const Text("Ethan Chen"),
+                        const Text("416-824-9713"),
+                        ElevatedButton(
+                          style: ElevatedButton.styleFrom(
+                            padding: EdgeInsets.all(20),
+                          ),
+                          child: Text("Edit details", style: TextStyle(fontSize: 20)),
+                          onPressed: () {
+                          },
+                        )
                   ],
                 )
             )
